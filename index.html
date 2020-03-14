@@ -50,9 +50,9 @@
         }
     </style>
    <script>
-       var wcb = "";
-       var board = [[], [], [], [], [], [], [], []];
-       var turn = 0;
+        var wcb = "";
+        var board = [[], [], [], [], [], [], [], []];
+        var turn = 0;
         var table = document.createElement("table");
         var pTurn = document.createElement("p");
         var piecePosition = ['17', '37', '57', '77', '06', '26', '46', '66'];
@@ -156,7 +156,7 @@
                                 return 0;
                         }
                         else
-                        if(board[z1][z2] != "O")//tu pozniej bez X bo bicie 
+                        if(board[z1][z2] != "O")
                         {
                             if(IsSomewhereKickedOf("O") == "")
                             {
@@ -256,6 +256,181 @@
                     }
                 }
             }
+            else if(board[i1][i2] == "o" && turn % 2 == 0)
+            {
+                let lx = parseInt(i1) - 1;
+                let ly = parseInt(i2) - 1;
+                while(lx >= 0 && ly >= 0)
+                {
+                    let position = "" + lx + ly;
+                    if(board[lx][ly] == "")
+                    {
+                        document.getElementById(position).setAttribute("IsClicked", field.id);
+                        document.getElementById(position).setAttribute("style", style);
+                    }
+                    else if(board[lx][ly] == "x" || board[lx][ly] == "X")
+                    {
+                        if(lx-1 >= 0 && ly-1 >= 0)
+                            if(board[lx-1][ly-1] != "")
+                                break;
+                    }
+                    else break;
+                    lx--;
+                    ly--;
+                }
+                // to right
+                let rx = parseInt(i1) + 1;
+                let ry = parseInt(i2) - 1;
+                while(rx < 8 && ry >= 0)
+                {
+                    let position = "" + rx + ry;
+                    if(board[rx][ry] == "")
+                    {
+                        document.getElementById(position).setAttribute("IsClicked", field.id);
+                        document.getElementById(position).setAttribute("style", style);
+                    }
+                    else if(board[rx][ry] == "x" || board[rx][ry] == "X")
+                    {
+                        if(rx+1 < 8 && ry-1 >= 0)
+                            if(board[rx+1][ry-1] != "")
+                                break;
+                    }
+                    else break;
+                    rx++;
+                    ry--;
+                }
+                //To left
+                lx = parseInt(i1) - 1;
+                ly = parseInt(i2) + 1;
+                while(lx >= 0 && ly < 8)
+                {
+                    //console.log(lx + " " + ly);
+                    let position = "" + lx + ly;
+                    if(board[lx][ly] == "")
+                    {
+                        document.getElementById(position).setAttribute("IsClicked", field.id);
+                        document.getElementById(position).setAttribute("style", style);
+                    }
+                    else if(board[lx][ly] == "x" || board[lx][ly] == "X")
+                    {
+                        if(lx-1 >= 0 && ly+1 < 8)
+                            if(board[lx-1][ly+1] != "")
+                                break;
+                    }
+                    else break;
+                    lx--;
+                    ly++;
+                }
+                //To right
+                rx = parseInt(i1) + 1;
+                ry = parseInt(i2) + 1;
+                while(rx < 8 && ry < 8)
+                {
+                    let position = "" + rx + ry;
+                    if(board[rx][ry] == "")
+                    {
+                        document.getElementById(position).setAttribute("IsClicked", field.id);
+                        document.getElementById(position).setAttribute("style", style);
+                    }
+                    else if(board[rx][ry] == "x" || board[rx][ry] == "X")
+                    {
+                        if(rx+1 < 8 && ry+1 < 8)
+                            if(board[rx+1][ry+1] != "")
+                                break;
+                    }
+                    else break;
+                    rx++;
+                    ry++;
+                }
+            }
+            else if(board[i1][i2] == "x" && turn % 2 == 1)
+            {
+                //To left
+                let lx = parseInt(i1) - 1;
+                let ly = parseInt(i2) - 1;
+                while(lx >= 0 && ly >= 0)
+                {
+                    let position = "" + lx + ly;
+                    if(board[lx][ly] == "")
+                    {
+                        document.getElementById(position).setAttribute("IsClicked", field.id);
+                        document.getElementById(position).setAttribute("style", style);
+                    }
+                    else if(board[lx][ly] == "o" || board[lx][ly] == "O")
+                    {
+                        if(lx-1 >= 0 && ly-1 >= 0)
+                            if(board[lx-1][ly-1] != "")
+                                break;
+                    }
+                    else break;
+                    lx--;
+                    ly--;
+                }
+                // to right
+                let rx = parseInt(i1) + 1;
+                let ry = parseInt(i2) - 1;
+                while(rx < 8 && ry >= 0)
+                {
+                    let position = "" + rx + ry;
+                    if(board[rx][ry] == "")
+                    {
+                        document.getElementById(position).setAttribute("IsClicked", field.id);
+                        document.getElementById(position).setAttribute("style", style);
+                    }
+                    else if(board[rx][ry] == "o" || board[rx][ry] == "O")
+                    {
+                        if(rx+1 < 8 && ry-1 >= 0)
+                            if(board[rx+1][ry-1] != "")
+                                break;
+                    }
+                    else break;
+                    rx++;
+                    ry--;
+                }
+                
+                lx = parseInt(i1) - 1;
+                ly = parseInt(i2) + 1;
+                while(lx >= 0 && ly < 8)
+                {
+                    //console.log(lx + " " + ly);
+                    let position = "" + lx + ly;
+                    if(board[lx][ly] == "")
+                    {
+                        document.getElementById(position).setAttribute("IsClicked", field.id);
+                        document.getElementById(position).setAttribute("style", style);
+                    }
+                    else if(board[lx][ly] == "o" || board[lx][ly] == "O")
+                    {
+                        if(lx-1 >= 0 && ly+1 < 8)
+                            if(board[lx-1][ly+1] != "")
+                                break;
+                    }
+                    else break;
+                    lx--;
+                    ly++;
+                }
+                //To right
+                rx = parseInt(i1) + 1;
+                ry = parseInt(i2) + 1;
+                while(rx < 8 && ry < 8)
+                {
+                    let position = "" + rx + ry;
+                    if(board[rx][ry] == "")
+                    {
+                        document.getElementById(position).setAttribute("IsClicked", field.id);
+                        document.getElementById(position).setAttribute("style", style);
+                    }
+                    else if(board[rx][ry] == "o" || board[rx][ry] == "O")
+                    {
+                        if(rx+1 < 8 && ry+1 < 8)
+                            if(board[rx+1][ry+1] != "")
+                                break;
+                    }
+                    else break;
+                    rx++;
+                    ry++;
+                }
+            }
         }
         function OnClickIsClicked(id)
         {
@@ -284,7 +459,7 @@
                     var b2 = (parseInt(d2) + parseInt(n2)) / 2;
                     if(b1 % 1 ==0 && b2 % 1 == 0)
                     {
-                        if(board[b1][b2] == "X")
+                        if(board[b1][b2] == "X" || board[b1][b2] == "x")
                         {
                             board[b1][b2] = "";
                             if(IsKickOff(d1, d2, "O"))
@@ -295,7 +470,7 @@
                         }
                     }
                 }
-                else
+                else if(board[n1][n2] == "X")
                 {
                     board[d1][d2] = "X";
                     board[n1][n2] = "";
@@ -303,7 +478,7 @@
                     var b2 = (parseInt(d2) + parseInt(n2)) / 2;
                     if(b1 % 1 ==0 && b2 % 1 == 0)
                     {
-                        if(board[b1][b2] == "O")
+                        if(board[b1][b2] == "O" || board[b1][b2] == "o")
                         {
                             board[b1][b2] = "";
                             if(IsKickOff(d1, d2, "X"))
@@ -314,6 +489,43 @@
                         }
                     }
                 }
+                else if(board[n1][n2] == "o" || board[n1][n2] == "x")
+                {
+                    //ogarnac dwa przypadki gdy sa o lub x
+                    //let position = document.getElementById("" + n1 + n2).getAttribute("isClicked");
+                    //let x = position[0];
+                    //let y = position[1];
+                    if(board[n1][n2] == "o")
+                        board[d1][d2] = "o";
+                    else
+                        board[d1][d2] = "x";
+                    board[n1][n2] = "";
+                    var np = GoCloser(n1, n2, d1, d2);
+                    n1 = np[0];
+                    n2 = np[1];
+                    while(n1 != d1)
+                    {
+                        if(board[n1][n2] != "")
+                            board[n1][n2] = "";
+                        let np = GoCloser(n1, n2, d1, d2);
+                        n1 = np[0];
+                        n2 = np[1];
+                    }
+
+                }                
+        }
+        function GoCloser(x1, y1, x2, y2)
+        {
+            if(x1 < x2)
+                x1++;
+            else
+                x1--;
+            if(y1 < y2)
+                y1++;
+            else
+                y1--;
+            var position = "" + x1 + y1;
+            return position;
         }
         function IsSomewhereKickedOf(c)
         {
@@ -403,7 +615,7 @@
                     {
                        
                         //zabezpieczenia przed koncem planszy
-                        if(board[l1][l2] == "X")
+                        if(board[l1][l2] == "X" || board[l1][l2] == "x")
                         {
                             var b1 = l1 - 1;
                             var b2 = l2 - 1;
@@ -427,7 +639,7 @@
                 {
                     if(z2 > 1)
                     {
-                        if(board[r1][r2] == "X")
+                        if(board[r1][r2] == "X" || board[r1][r2] == "x")
                         {
                             var b1 = r1 + 1;
                             var b2 = r2 - 1;
@@ -461,7 +673,7 @@
                     {
                        
                         //zabezpieczenia przed koncem planszy
-                        if(board[l1][l2] == "O")
+                        if(board[l1][l2] == "O" || board[l1][l2] == "o")
                         {
                             var b1 = l1 - 1;
                             var b2 = l2 + 1;
@@ -485,7 +697,7 @@
                 {
                     if(z2 < 6)
                     {
-                        if(board[r1][r2] == "O")
+                        if(board[r1][r2] == "O" || board[r1][r2] == "o")
                         {
                             var b1 = r1 + 1;
                             var b2 = r2 + 1;
@@ -595,7 +807,50 @@
                     }
                 }
             }
+            else if(board[x][y] == "o" || board[x][y] == "x")
+            {
+                let position = "" + x + y;
+                if(turn % 2 == 0 && board[x][y] == "x")
+                {
+                    turn++;
+                    document.getElementById(position).click();
+                    turn--;
+                }
+                else if(turn % 2 == 1 && board[x][y] == "o")
+                {
+                    turn++;
+                    document.getElementById(position).click();
+                    turn--;
+                }
+                else document.getElementById(position).click();
+                for(let i=0;i<8;i++)
+                {
+                    for(let o=0;o<8;o++)
+                    {
+                        var pos = "" + o + i;
+                        if(document.getElementById(pos).hasAttribute("style"))
+                        {
+                            RemoveIsClicked();
+                            RemoveStyle();
+                            RemoveClicked();
+                            return true;
+                        }
+                    }
+                }
+                RemoveClicked();
+            }
             return false;
+        }
+        function RemoveClicked()
+        {
+            for(let i=0;i<8;i++)
+            {
+                for(let o=0;o<8;o++)
+                {
+                    var pos = "" + o + i;
+                    document.getElementById(pos).classList.remove("Clicked");
+                }
+            }
         }
         function IsWin(c)
         {
