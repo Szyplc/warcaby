@@ -124,13 +124,27 @@
                 turn++;
                 return 0;
             }
-           FirstClick(i1, i2, e.srcElement.id);
-            
+            FirstClick(i1, i2, e.srcElement.id);
             e.srcElement.classList.add("Clicked");
         }
         function FirstClick(i1, i2, id)
         {
+
             var field = document.getElementById(id);
+            if(field.textContent == "o" || field.textContent == "O")
+            {
+                if(IsSomewhereKickedOf("o") != "" || IsSomewhereKickedOf("O") != "")
+                {
+                    return "";
+                }
+            }
+            else
+            {
+                if(IsSomewhereKickedOf("x") != "" || IsSomewhereKickedOf("X") != "")
+                {
+                    return "";
+                }
+            }
             if(board[i1][i2] == "O" && turn % 2 == 0)
             {//zmienia tez i1 i i2 jak przy klasach
                 if(i2 < 1)
@@ -150,15 +164,15 @@
                           RemoveStyle();
                         var z1 = left[0];
                         var z2 = left[1];//dac pierww kick off
-                        if(board[z1][z2] == "X")//usunac mozliwosc nie bicia
+                        if(board[z1][z2] == "X" || board[z1][z2] == "x")//usunac mozliwosc nie bicia
                         {
-                            if(IsKickOff(i1, i2, "O"))
+                            if(IsKickOff(i1, i2, "O") || IsKickOff(i1. i2, "o"))
                                 return 0;
                         }
                         else
                         if(board[z1][z2] != "O")
                         {
-                            if(IsSomewhereKickedOf("O") == "")
+                            if(IsSomewhereKickedOf("O") == "" || IsSomewhereKickedOf("o") == "")
                             {
                                 document.getElementById(left).setAttribute("style", style);
                                 document.getElementById(left).setAttribute("IsClicked", field.id);///////////////sprawdzic czy je
@@ -176,15 +190,15 @@
                     {
                         var z1 = right[0];
                         var z2 = right[1];
-                        if(board[z1][z2] == "X")//usunac mozliwosc nie bicia
+                        if(board[z1][z2] == "X" || board[z1][z2] == "x")//usunac mozliwosc nie bicia
                         {
-                            if(IsKickOff(i1, i2, "O"))
+                            if(IsKickOff(i1, i2, "O") || IsKickOff(i1, i2, "o"))
                                 return 0;
                         }
                         else
                         if(board[z1][z2] != "O")//tu pozniej bez X bo bicie
                         {
-                            if(IsSomewhereKickedOf("O") == "")
+                            if(IsSomewhereKickedOf("O") == "" || IsSomewhereKickedOf("o") == "")
                             {
                                 document.getElementById(right).setAttribute("style", style);
                                 document.getElementById(right).setAttribute("IsClicked", field.id);///////////////sprawdzic czy je
@@ -213,15 +227,15 @@
                           RemoveStyle();
                         var z1 = left[0];
                         var z2 = left[1];//dac pierww kick off
-                        if(board[z1][z2] == "O")//usunac mozliwosc nie bicia
+                        if(board[z1][z2] == "O" || board[z1][z2] == "o")//usunac mozliwosc nie bicia
                         {
-                            if(IsKickOff(i1, i2, "X"))
+                            if(IsKickOff(i1, i2, "X") || IsKickOff(i1, i2, "x"))
                                 return 0;
                         }
                         else
                         if(board[z1][z2] != "X")//tu pozniej bez X bo bicie 
                         {
-                            if(IsSomewhereKickedOf("X") == "")
+                            if(IsSomewhereKickedOf("X") == "" || IsSomewhereKickedOf("x") == "")
                             {
                                 document.getElementById(left).setAttribute("style", style);
                                 document.getElementById(left).setAttribute("IsClicked", field.id);///////////////sprawdzic czy je
@@ -239,15 +253,15 @@
                     {
                         var z1 = right[0];
                         var z2 = right[1];
-                        if(board[z1][z2] == "O")//usunac mozliwosc nie bicia
+                        if(board[z1][z2] == "O" || board[z1][z2] == "o")//usunac mozliwosc nie bicia
                         {
-                            if(IsKickOff(i1, i2, "X"))
+                            if(IsKickOff(i1, i2, "X") || IsKickOff(i1, i2, "x"))
                                 return 0;
                         }
                         else
                         if(board[z1][z2] != "X")//tu pozniej bez X bo bicie
                         {
-                            if(IsSomewhereKickedOf("X") == "")
+                            if(IsSomewhereKickedOf("X") == "" || IsSomewhereKickedOf("x") == "")
                             {
                                 document.getElementById(right).setAttribute("style", style);
                                 document.getElementById(right).setAttribute("IsClicked", field.id);///////////////sprawdzic czy je
@@ -304,7 +318,6 @@
                 ly = parseInt(i2) + 1;
                 while(lx >= 0 && ly < 8)
                 {
-                    //console.log(lx + " " + ly);
                     let position = "" + lx + ly;
                     if(board[lx][ly] == "")
                     {
@@ -392,7 +405,6 @@
                 ly = parseInt(i2) + 1;
                 while(lx >= 0 && ly < 8)
                 {
-                    //console.log(lx + " " + ly);
                     let position = "" + lx + ly;
                     if(board[lx][ly] == "")
                     {
@@ -529,6 +541,8 @@
         }
         function IsSomewhereKickedOf(c)
         {
+            var position = "";
+            //RemoveStyle();
             for(let i=0;i<8;i++)
             {
                 for(let o=0;o<8;o++)
@@ -538,12 +552,12 @@
                         if(IsKickOff(o, i, c))
                         {
                             var position = "" + o + i;
-                            return position;
+                            //return position;
                         }
                     }
                 }
             }
-            return "";
+            return position;
         }
         function RemoveIsClicked()
         {
@@ -601,10 +615,11 @@
         function IsKickOff(z1, z2, c)
         {//gdy jestesmy 2 2 to nie mozna nic zroobic bo raczej jest ustawion eze tam nic nie mozna zrobic
            //w lewo przy prawym biciu
+           
+           var p = "" + z1 + z2;
             if(c == "O")
             {
                 var r = false;
-                var p = "" + z1 + z2;
                 var l1 = parseInt(z1) - 1;
                 var l2 = parseInt(z2) - 1;
                 var r1 = parseInt(z1) + 1;
@@ -624,7 +639,6 @@
                                 //to mozna na lewo raz
                                 //IsKickOff(b1, b2, "O");
                                 var position = "" + b1 + b2;
-                                RemoveStyle();
                                 document.getElementById(position).setAttribute("style", style);
                                 document.getElementById(position).setAttribute("IsClicked",  p);
                                 var pos = "" + z1 + z2;
@@ -648,7 +662,6 @@
                                 //to mozna na lewo raz
                                 //IsKickOff(b1, b2, "O");
                                 var position = "" + b1 + b2;
-                                RemoveStyle();
                                 document.getElementById(position).setAttribute("style", style);
                                 document.getElementById(position).setAttribute("IsClicked",  p);
                                 var pos = "" + z1 + z2;
@@ -682,7 +695,6 @@
                                 //to mozna na lewo raz
                                 //IsKickOff(b1, b2, "O");
                                 var position = "" + b1 + b2;
-                                RemoveStyle();
                                 document.getElementById(position).setAttribute("style", style);
                                 document.getElementById(position).setAttribute("IsClicked",  p);
                                 var pos = "" + z1 + z2;
@@ -706,7 +718,6 @@
                                 //to mozna na lewo raz
                                 //IsKickOff(b1, b2, "O");
                                 var position = "" + b1 + b2;
-                                RemoveStyle();
                                 document.getElementById(position).setAttribute("style", style);
                                 document.getElementById(position).setAttribute("IsClicked",  p);
                                 var pos = "" + z1 + z2;
@@ -715,6 +726,256 @@
                             }
                         }
                     }
+                }
+            }
+            else if(c == "o")
+            {
+                let ec = "X";
+                let eck = "x";
+                //lewo góra
+                let lgx = z1;
+                let lgy = z2;
+                while(lgx >= 0 && lgy >= 0)
+                {
+                    if(board[lgx][lgy] == ec || board[lgx][lgy] == eck)
+                    {
+                        if(lgx - 1 >= 0 && lgy - 1 >= 0)
+                        if(board[lgx - 1][lgy - 1] == "")
+                        {
+                            while(lgx >= 0 && lgy >= 0)
+                            {
+                                var position = "" + lgx + lgy;
+                                if(board[lgx][lgy] == "")
+                                {
+                                    document.getElementById(position).setAttribute("style", style);
+                                    document.getElementById(position).setAttribute("IsClicked",  p);
+                                }
+                                var pos = "" + z1 + z2;
+                                lgx--;
+                                lgy--;
+                            }
+                            //document.getElementById(pos).classList.add("Clicked");
+                            r = true;
+                            break;
+                        }
+                    }
+                    lgx--;
+                    lgy--;
+                }
+                //lewo dół
+                let ldx = z1;
+                let ldy = z2;
+                while(ldx >= 0 && ldy < 8)
+                {
+                    if(board[ldx][ldy] == ec || board[ldx][ldy] == eck)
+                    {
+                        if(ldx - 1 >= 0 && ldy + 1 < 8)
+                        if(board[ldx - 1][ldy + 1] == "")
+                        {
+                            while(ldx >= 0 && ldy < 8)
+                            {
+                                var position = "" + ldx + ldy;
+                                if(board[ldx][ldy] == "")
+                                {
+                                    document.getElementById(position).setAttribute("style", style);
+                                    document.getElementById(position).setAttribute("IsClicked",  p);
+                                }
+                                var pos = "" + z1 + z2;
+                                ldx--;
+                                ldy++;
+                            }
+                            //document.getElementById(pos).classList.add("Clicked");
+                            r = true;
+                            break;
+                        }
+                    }
+                    ldx--;
+                    ldy++;
+                }
+                //prawo góra                
+                let rgx = z1;
+                let rgy = z2;
+                while(rgx < 8 && rgy >= 0)
+                {
+                    if(board[rgx][rgy] == ec || board[rgx][rgy] == eck)
+                    {
+                        if(rgx + 1 < 8 && rgy - 1 >= 0)
+                        if(board[rgx + 1][rgy - 1] == "")
+                        {
+                            while(rgx < 8 && rgy >= 0)
+                            {
+                                var position = "" + rgx + rgy;
+                                if(board[rgx][rgy] == "")
+                                {
+                                    document.getElementById(position).setAttribute("style", style);
+                                    document.getElementById(position).setAttribute("IsClicked",  p);
+                                }
+                                var pos = "" + z1 + z2;
+                                rgx++;
+                                rgy--;
+                            }
+                            //document.getElementById(pos).classList.add("Clicked");
+                            r = true;
+                            break;
+                        }
+                    }
+                    rgx++;
+                    rgy--;
+                }
+                //prawo dół                
+                let rdx = z1;
+                let rdy = z2;
+                while(rdx < 8 && rdy < 8)
+                {
+                    if(board[rdx][rdy] == ec || board[rdx][rdy] == eck)
+                    {
+                        if(rdx + 1 < 8 && rdy + 1 < 8)
+                        if(board[rdx + 1][rdy + 1] == "")
+                        {
+                            while(rdx < 8 && rdy < 8)
+                            {
+                                var position = "" + rdx + rdy;
+                                if(board[rdx][rdy] == "")
+                                {
+                                    document.getElementById(position).setAttribute("style", style);
+                                    document.getElementById(position).setAttribute("IsClicked",  p);
+                                }
+                                var pos = "" + z1 + z2;
+                                rdx++;
+                                rdy++;
+                            }
+                            //document.getElementById(pos).classList.add("Clicked");
+                            r = true;
+                            break;
+                        }
+                    }
+                    rdx++;
+                    rdy++;
+                }
+            }
+            else if(c == "x")
+            {
+                let ec = "O";
+                let eck = "o";
+                //lewo góra
+                let lgx = z1;
+                let lgy = z2;
+                while(lgx >= 0 && lgy >= 0)
+                {
+                    if(board[lgx][lgy] == ec || board[lgx][lgy] == eck)
+                    {
+                        if(lgx - 1 >= 0 && lgy - 1 >= 0)
+                        if(board[lgx - 1][lgy - 1] == "")
+                        {
+                            while(lgx >= 0 && lgy >= 0)
+                            {
+                                var position = "" + lgx + lgy;
+                                if(board[lgx][lgy] == "")
+                                {
+                                    document.getElementById(position).setAttribute("style", style);
+                                    document.getElementById(position).setAttribute("IsClicked",  p);
+                                }
+                                var pos = "" + z1 + z2;
+                                lgx--;
+                                lgy--;
+                            }
+                            //document.getElementById(pos).classList.add("Clicked");
+                            r = true;
+                            break;
+                        }
+                    }
+                    lgx--;
+                    lgy--;
+                }
+                //lewo dół
+                let ldx = z1;
+                let ldy = z2;
+                while(ldx >= 0 && ldy < 8)
+                {
+                    if(board[ldx][ldy] == ec || board[ldx][ldy] == eck)
+                    {
+                        if(ldx - 1 >= 0 && ldy + 1 < 8)
+                        if(board[ldx - 1][ldy + 1] == "")
+                        {
+                            while(ldx >= 0 && ldy < 8)
+                            {
+                                var position = "" + ldx + ldy;
+                                if(board[ldx][ldy] == "")
+                                {
+                                    document.getElementById(position).setAttribute("style", style);
+                                    document.getElementById(position).setAttribute("IsClicked",  p);
+                                }
+                                var pos = "" + z1 + z2;
+                                ldx--;
+                                ldy++;
+                            }
+                            //document.getElementById(pos).classList.add("Clicked");
+                            r = true;
+                            break;
+                        }
+                    }
+                    ldx--;
+                    ldy++;
+                }
+                //prawo góra                
+                let rgx = z1;
+                let rgy = z2;
+                while(rgx < 8 && rgy >= 0)
+                {
+                    if(board[rgx][rgy] == ec || board[rgx][rgy] == eck)
+                    {
+                        if(rgx + 1 < 8 && rgy - 1 >= 0)
+                        if(board[rgx + 1][rgy - 1] == "")
+                        {
+                            while(rgx < 8 && rgy >= 0)
+                            {
+                                var position = "" + rgx + rgy;
+                                if(board[rgx][rgy] == "")
+                                {
+                                    document.getElementById(position).setAttribute("style", style);
+                                    document.getElementById(position).setAttribute("IsClicked",  p);
+                                }
+                                var pos = "" + z1 + z2;
+                                rgx++;
+                                rgy--;
+                            }
+                            //document.getElementById(pos).classList.add("Clicked");
+                            r = true;
+                            break;
+                        }
+                    }
+                    rgx++;
+                    rgy--;
+                }
+                //prawo dół                
+                let rdx = z1;
+                let rdy = z2;
+                while(rdx < 8 && rdy < 8)
+                {
+                    if(board[rdx][rdy] == ec || board[rdx][rdy] == eck)
+                    {
+                        if(rdx + 1 < 8 && rdy + 1 < 8)
+                        if(board[rdx + 1][rdy + 1] == "")
+                        {
+                            while(rdx < 8 && rdy < 8)
+                            {
+                                var position = "" + rdx + rdy;
+                                if(board[rdx][rdy] == "")
+                                {
+                                    document.getElementById(position).setAttribute("style", style);
+                                    document.getElementById(position).setAttribute("IsClicked",  p);
+                                }
+                                var pos = "" + z1 + z2;
+                                rdx++;
+                                rdy++;
+                            }
+                            //document.getElementById(pos).classList.add("Clicked");
+                            r = true;
+                            break;
+                        }
+                    }
+                    rdx++;
+                    rdy++;
                 }
             }
             return r;
@@ -730,13 +991,17 @@
             {
                 pTurn.textContent = "X";
             }
-            if(!IsWin("X"))
-                alert("WYGRALY O");
-            if(!IsWin("O"))
-                alert("WYGRALY X");
+            if(IsWin("o") && IsWin("O"))
+            {
+                alert("Wgrały X");
+            }
+            if(IsWin("x") && IsWin("X"))
+            {
+                alert("Wygaly O");
+            }
         }
         function CanMove(x, y)
-        {
+        {//dwa warunki nie tylko == "X" ale tez == "x"
             if(board[x][y] == "X")
             {
                 let lx = x - 1;
@@ -809,35 +1074,79 @@
             }
             else if(board[x][y] == "o" || board[x][y] == "x")
             {
-                let position = "" + x + y;
-                if(turn % 2 == 0 && board[x][y] == "x")
+                var nc = board[x][y];
+                if(nc == "x")
+                    nc = "O";
+                else
+                    nc = "X";
+                //left down
+                let ldx = x - 1;
+                let ldy = y + 1;
+                if(ldx >= 0 && ldy < 8)
                 {
-                    turn++;
-                    document.getElementById(position).click();
-                    turn--;
-                }
-                else if(turn % 2 == 1 && board[x][y] == "o")
-                {
-                    turn++;
-                    document.getElementById(position).click();
-                    turn--;
-                }
-                else document.getElementById(position).click();
-                for(let i=0;i<8;i++)
-                {
-                    for(let o=0;o<8;o++)
+                    if(board[ldx][ldy] == nc)
                     {
-                        var pos = "" + o + i;
-                        if(document.getElementById(pos).hasAttribute("style"))
-                        {
-                            RemoveIsClicked();
-                            RemoveStyle();
-                            RemoveClicked();
-                            return true;
-                        }
+                        let bx = ldx - 1;
+                        let by = ldy + 1;
+                        if(bx >= 0 && by < 8)
+                            if(board[bx][by] == "")
+                                return true;
                     }
                 }
-                RemoveClicked();
+                //left up
+                let lux = x - 1;
+                let luy = y - 1;
+                if(lux >= 0 && luy >= 0)
+                {
+                    if(board[lux][luy] == nc)
+                    {
+                        let bx = lux - 1;
+                        let by = luy - 1;
+                        if(bx >= 0 && by >= 0)
+                            if(board[bx][by] == "")
+                                return true;
+                    }
+                }
+                //right down 
+                let rdx = x + 1;
+                let rdy = y + 1;
+                if(rdx < 8 && rdy < 8)
+                {
+                    if(board[rdx][rdy] == nc)
+                    {
+                        let bx = rdx + 1;
+                        let by = rdy + 1;
+                        if(board[bx][by] == "O")
+                            if(bx < 8 && by < 8)
+                                return true;
+                    }
+                }
+                //right up
+                let rux = x + 1;
+                let ruy = y - 1;
+                if(rux < 8 && ruy >= 0)
+                {
+                    if(board[rux][ruy] == nc)
+                    {
+                        let bx = rux + 1;
+                        let by = ruy - 1;
+                        if(board[bx][by] == nc)
+                            if(bx < 8 && by >= 0)
+                                return true;
+                    }
+                }
+                if(lux >= 0 && luy >= 0)
+                    if(board[lux][luy] == "")
+                        return true;
+                if(rux < 8 && ruy >= 0)
+                    if(board[rux][ruy] == "")
+                        return true;
+                if(ldx >= 0 && ldy < 8)
+                    if(board[ldx][ldy] == "")
+                        return true;
+                if(rdx < 8 && rdy < 8)
+                    if(board[rdx][rdy] == "")
+                        return true;
             }
             return false;
         }
@@ -860,10 +1169,10 @@
                 {
                     if(board[o][i] == c)
                         if(CanMove(o, i))
-                            return true;
+                            return false;
                 }
             }
-            return false;
+            return true;
         }
         function LastRow()
         {
