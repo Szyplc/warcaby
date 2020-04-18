@@ -131,14 +131,14 @@
         {
 
             var field = document.getElementById(id);
-            if(field.textContent == "o" || field.textContent == "O")
+            if((field.textContent == "o" || field.textContent == "O") && turn % 2 == 0)
             {
                 if(IsSomewhereKickedOf("o") != "" || IsSomewhereKickedOf("O") != "")
                 {
                     return "";
                 }
             }
-            else
+            else if((field.textContent == "x" || field.textContent == "X") && turn % 2 == 1)
             {
                 if(IsSomewhereKickedOf("x") != "" || IsSomewhereKickedOf("X") != "")
                 {
@@ -507,6 +507,7 @@
                     //let position = document.getElementById("" + n1 + n2).getAttribute("isClicked");
                     //let x = position[0];
                     //let y = position[1];
+                    var color = board[n1][n2];
                     if(board[n1][n2] == "o")
                         board[d1][d2] = "o";
                     else
@@ -518,12 +519,16 @@
                     while(n1 != d1)
                     {
                         if(board[n1][n2] != "")
+                        {
                             board[n1][n2] = "";
+                            if(IsKickOff(n1, n2, color))
+                                turn--;
+                        }
                         let np = GoCloser(n1, n2, d1, d2);
                         n1 = np[0];
                         n2 = np[1];
                     }
-
+                    
                 }                
         }
         function GoCloser(x1, y1, x2, y2)
